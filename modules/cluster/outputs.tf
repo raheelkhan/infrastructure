@@ -12,3 +12,13 @@ output "cluster_oidc_provider" {
   description = "OIDC provider for this EKS cluster"
   value       = module.eks.oidc_provider
 }
+
+output "cluster_certificate_authority_data" {
+  description = "CA Data for EKS Cluster"
+  value       = module.eks.cluster_certificate_authority_data
+}
+
+output "cluster_token" {
+  description = "CA Data for EKS Cluster"
+  value       = data.aws_eks_cluster_auth.cluster.token
+}

@@ -1,8 +1,10 @@
-vpc_name = "rak-stage-vpc"
+region = "us-east-1"
 
-cluster_name = "rak-stage-cluster"
+vpc_name = "eks-cluster-vpc"
 
-node_group_name = "rak-stage-node-group"
+cluster_name = "cluster"
+
+node_group_name = "node-group"
 
 instance_types = ["t3.small"]
 
@@ -12,4 +14,6 @@ max_number_of_nodes = 3
 
 desired_number_of_nodes = 2
 
-ebs_csi_role_name = "RakStageEBSCSIRole"
+ebs_csi_role_name = "EBSCSIRole"
+
+aws_alb_controller_role_name = "AWSLoadBalancerControllerRole"

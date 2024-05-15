@@ -1,3 +1,7 @@
+variable "region" {
+  description = "Region where the resources will be created"
+  type        = string
+}
 variable "vpc_name" {
   description = "Name of VPC identifier"
   type        = string
@@ -42,5 +46,10 @@ variable "desired_number_of_nodes" {
 
 variable "ebs_csi_role_name" {
   description = "The name of role that will be created as IAM role for service account for storage API access"
+  type        = string
+}
+
+variable "aws_alb_controller_role_name" {
+  description = "The name of role that will be created as IAM role for service account for AWS Load Balancer Controller"
   type        = string
 }
