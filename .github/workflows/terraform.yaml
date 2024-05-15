@@ -10,11 +10,11 @@ on:
       - master
 
 jobs:
-  # Run-CI:
-  #   uses: ./.github/workflows/terraform-reusable-ci.yaml
+  Run-CI:
+    uses: ./.github/workflows/terraform-reusable-ci.yaml
     
   Run-CD-Stage:
-    # needs: Run-CI
+    needs: Run-CI
     uses: ./.github/workflows/terraform-reusable-cd.yaml
     with:
       environment: stage
