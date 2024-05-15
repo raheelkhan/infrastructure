@@ -25,15 +25,12 @@ jobs:
       with:
         terraform_version: "1.8.1"
 
-    # - name: Terraform Init
-    #   run: terraform init
-
     - name: Terraform Format
       run: terraform fmt --list=true -recursive -check
-
-    # - name: Terraform Plan
-    #   run: terraform plan -input=false
-
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
-    #   run: terraform apply -auto-approve -input=false
+    
+    - name: Terraform Validate
+      working-directory: ./stage  
+      run: |
+        terraform init -backend=false
+        terraform validate
+    
