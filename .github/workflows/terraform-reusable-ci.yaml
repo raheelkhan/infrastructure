@@ -7,22 +7,22 @@ permissions:
   contents: read
 
 jobs:
-  Setup-Terraform:
-    name: 'Setup Terraform'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
+  # Setup-Terraform:
+  #   name: 'Setup Terraform'
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       shell: bash
 
-    steps:
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: "1.8.1"
+  #   steps:
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v3
+  #     with:
+  #       terraform_version: "1.8.1"
   
   Validate-Terraform: 
     name: 'Validate and Scan Terraform Configuration'
-    needs: Setup-Terraform
+    # needs: Setup-Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
