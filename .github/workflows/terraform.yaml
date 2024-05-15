@@ -10,11 +10,13 @@ jobs:
     uses: ./.github/workflows/terraform-reusable-ci.yaml
     
   Run-CD-Stage:
+    needs: Run-CI
     uses: ./.github/workflows/terraform-reusable-cd.yaml
     with:
       environment: stage
   
   Run-CD-Prod:
+    needs: Run-CD-Stage
     uses: ./.github/workflows/terraform-reusable-cd.yaml
     with:
       environment: prod
