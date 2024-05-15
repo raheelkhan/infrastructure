@@ -19,10 +19,10 @@ jobs:
     with:
       environment: stage
     secrets:
-      bucket: ${{ secrets.BUCKET }}
-      key: ${{ secrets.KEY }}
-      region: ${{ secrets.REGION }}
-      aws_iam_role_arn: ${{ secrets.AWS_IAM_ROLE_ARN }}
+      bucket: ${{ secrets.STAGE_BUCKET }}
+      key: ${{ secrets.STAGE_KEY }}
+      region: ${{ secrets.STAGE_REGION }}
+      aws_iam_role_arn: ${{ secrets.STAGE_AWS_IAM_ROLE_ARN }}
 
   # Run-CD-Prod:
   #   needs: Run-CI

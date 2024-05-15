@@ -18,7 +18,6 @@ on:
 
 jobs:
   Plan-And-Apply-Terraform:
-    environment: ${{ inputs.environment }}
     name: 'Terraform Plan & Apply on ${{ inputs.environment }}'
     runs-on: ubuntu-latest
     defaults:
