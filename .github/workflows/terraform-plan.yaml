@@ -28,8 +28,14 @@ jobs:
     - name: Terraform Format
       run: terraform fmt --list=true -recursive -check
     
-    - name: Terraform Validate
+    - name: Terraform Validate Stage
       working-directory: ./stage  
+      run: |
+        terraform init -backend=false
+        terraform validate
+
+    - name: Terraform Validate Prod
+      working-directory: ./prod  
       run: |
         terraform init -backend=false
         terraform validate
