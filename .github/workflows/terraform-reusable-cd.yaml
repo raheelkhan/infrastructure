@@ -37,8 +37,7 @@ jobs:
       - name: Terraform Init
         working-directory: ${{ inputs.environment }}
         run: |
-         terraform init \ 
-         -backend-config="bucket=${{ secrets.bucket }}" \
+         terraform init -backend-config="bucket=${{ secrets.bucket }}" \
          -backend-config="key=${{ secrets.key }}" \
          -backend-config="region=${{ secrets.region }}"
         
