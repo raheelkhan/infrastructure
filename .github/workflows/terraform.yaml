@@ -1,0 +1,21 @@
+name: 'Terraform Plan'
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Run-CI:
+    uses: ./.github/workflows/terraform-reusable-ci.yaml
+    
+  Run-CD-Stage:
+    uses: ./.github/workflows/terraform-reusable-cd.yaml
+    with:
+      environment: stage
+  
+  Run-CD-Prod:
+    uses: ./.github/workflows/terraform-reusable-cd.yaml
+    with:
+      environment: prod
+    

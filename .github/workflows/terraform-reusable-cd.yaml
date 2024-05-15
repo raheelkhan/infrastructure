@@ -1,0 +1,44 @@
+name: 'Terraform Reusable CD workflow'
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  Setup-Terraform:
+    name: 'Setup Terraform'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    
+    steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.8.1"
+  
+  Plan-And-Apply-Terraform:
+    name: 'Terraform Plan & Apply on - ${{ inputs.environment }}'
+    needs: Setup-Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4   
+
+      - name: Terraform Plan
+        working-directory: ${{ inputs.environment }}
+        run: |
+          terraform plan -input=false -out=tf.out
+          
+       
