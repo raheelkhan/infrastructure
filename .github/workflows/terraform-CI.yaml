@@ -61,23 +61,15 @@ jobs:
         shell: bash
     
     steps:
-      - name: Run Trivy vulnerability scanner in IaC mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          hide-progress: true
-          output: trivy.txt
-      - name: Publish Trivy Output to Summary
+      - name: List files
         run: |
-          if [[ -s trivy.txt ]]; then
-            {
-              echo "### Security Output"
-              echo "<details><summary>Click to expand</summary>"
-              echo ""
-              echo '```terraform'
-              cat trivy.txt
-              echo '```'
-              echo "</details>"
-            } >> $GITHUB_STEP_SUMMARY
-          fi
+          ls -al
+
+
+      # - name: Run Trivy vulnerability scanner in IaC mode
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     scan-type: 'config'
+      #     hide-progress: true
+      #     output: trivy.txt
     
