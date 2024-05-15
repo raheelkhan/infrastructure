@@ -37,10 +37,6 @@ jobs:
             role-to-assume: arn:aws:iam::829744483406:role/GithubOIDCRole
             role-session-name: GitHub_to_AWS_via_FederatedOIDC
             aws-region: ${{ secrets.region }}
-        
-      - name: Sts GetCallerIdentity
-        run: |
-         aws sts get-caller-identity
       
       - name: Terraform Init
         working-directory: ${{ inputs.environment }}
