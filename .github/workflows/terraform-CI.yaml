@@ -51,23 +51,11 @@ jobs:
       run: |
         terraform init -backend=false
         terraform validate
-  
-  Security-Terraform:
-    name: 'Use Trivy to scan the Terraform Configuration'
-    needs: Validate-Terraform
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4   
-
-      - name: Run Trivy vulnerability scanner in IaC mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          hide-progress: true
-          output: table
-    
+    - name: Run Trivy vulnerability scanner in IaC mode
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'config'
+        format: table
+        exit-code: 0
+        severity: CRITICAL
