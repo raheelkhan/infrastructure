@@ -8,7 +8,7 @@ module "cluster" {
   source = "../modules/cluster"
 
   cluster_name            = var.cluster_name
-  vpc_id = module.network.vpc_id
+  vpc_id                  = module.network.vpc_id
   private_subnets_ids     = module.network.private_subnets_ids
   node_group_name         = var.node_group_name
   instance_types          = var.instance_types
