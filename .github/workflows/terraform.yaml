@@ -1,4 +1,4 @@
-name: 'Terraform Plan'
+name: 'Terraform CD'
 
 permissions:
   id-token: write
@@ -19,14 +19,17 @@ jobs:
     with:
       environment: stage
     secrets:
-      bucket: "rak-infra-raheel"
-      key: "stage/terraform.tfstate"
-      region: "us-east-1"
+      bucket: ${{ secrets.bucket }}
+      key: ${{ secrets.key }}
+      region: ${{ secrets.region }}
+      aws_iam_role_arn: "${{ secrets.aws_iam_role_arn }}
 
   
   # Run-CD-Prod:
   #   needs: Run-CD-Stage
   #   uses: ./.github/workflows/terraform-reusable-cd.yaml
+  #   with:
+  #     environment: stage
   #   with:
   #     environment: prod
     

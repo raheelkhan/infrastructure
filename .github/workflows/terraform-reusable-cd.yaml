@@ -13,9 +13,12 @@ on:
         required: true
       region:
         required: true
+      aws_iam_role_arn:
+        required: true
 
 jobs:
   Plan-And-Apply-Terraform:
+    environment: ${{ inputs.environment }}
     name: 'Terraform Plan & Apply on ${{ inputs.environment }}'
     runs-on: ubuntu-latest
     defaults:
@@ -34,7 +37,7 @@ jobs:
       -  name: Configure AWS
          uses: aws-actions/configure-aws-credentials@v4
          with:
-            role-to-assume: arn:aws:iam::829744483406:role/GithubOIDCRole
+            role-to-assume: ${{ secrets.aws_iam_role_arn }}
             role-session-name: GitHub_to_AWS_via_FederatedOIDC
             aws-region: ${{ secrets.region }}
       
