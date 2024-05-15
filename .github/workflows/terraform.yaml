@@ -14,10 +14,14 @@ jobs:
     uses: ./.github/workflows/terraform-reusable-cd.yaml
     with:
       environment: stage
+      bucket: "rak-infra-raheel"
+      key: "stage/terraform.tfstate"
+      region: "us-east-1"
+
   
-  Run-CD-Prod:
-    needs: Run-CD-Stage
-    uses: ./.github/workflows/terraform-reusable-cd.yaml
-    with:
-      environment: prod
+  # Run-CD-Prod:
+  #   needs: Run-CD-Stage
+  #   uses: ./.github/workflows/terraform-reusable-cd.yaml
+  #   with:
+  #     environment: prod
     
