@@ -1,4 +1,4 @@
-name: 'Terraform Plan'
+name: 'Terraform CI'
 
 on:
   push:
@@ -10,7 +10,21 @@ permissions:
 
 jobs:
   Setup-Terraform:
-    name: 'Setup-Terraform'
+    name: 'Setup Terraform'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.8.1"
+  
+  Validate-Terraform: 
+    name: 'Validate and Scan Terraform Configuration'
+    needs: Setup-Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -18,13 +32,8 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: "1.8.1"
-
+      uses: actions/checkout@v4     
+      
     - name: Terraform Format
       run: terraform fmt --list=true -recursive -check
     
