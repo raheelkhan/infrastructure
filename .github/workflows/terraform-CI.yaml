@@ -1,53 +1,15 @@
-name: 'Terraform CI'
+name: 'Terraform CI workflow'
+
 
 on:
   pull_request:
     types:
       - opened
+      - synchronize
     branches:
       - master
 
-permissions:
-  contents: read
-
 jobs:
-  Setup-Terraform:
-    name: 'Setup Terraform'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-
-    steps:
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: "1.8.1"
-  
-  Validate-Terraform: 
-    name: 'Validate and Scan Terraform Configuration'
-    needs: Setup-Terraform
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4     
-
-    - name: Terraform Format
-      run: terraform fmt --list=true -recursive -check
-    
-    - name: Terraform Validate Stage
-      working-directory: ./stage  
-      run: |
-        terraform init -backend=false
-        terraform validate
-
-    - name: Terraform Validate Prod
-      working-directory: ./prod  
-      run: |
-        terraform init -backend=false
-        terraform validate
+  Run-CI:
+    uses: ./.github/workflows/terraform-reusable-ci.yaml
     
