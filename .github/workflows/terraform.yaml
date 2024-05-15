@@ -1,5 +1,9 @@
 name: 'Terraform Plan'
 
+permissions:
+  id-token: write
+  contents: read
+
 on:
   push:
     branches:

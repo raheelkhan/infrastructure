@@ -14,9 +14,6 @@ on:
       region:
         required: true
 
-permissions:
-  contents: read
-
 jobs:
   Plan-And-Apply-Terraform:
     name: 'Terraform Plan & Apply on ${{ inputs.environment }}'
@@ -40,11 +37,21 @@ jobs:
          terraform init -backend-config="bucket=${{ secrets.bucket }}" \
          -backend-config="key=${{ secrets.key }}" \
          -backend-config="region=${{ secrets.region }}"
+      
+      -  name: Configure AWS
+         uses: aws-actions/configure-aws-credentials@v4
+         with:
+            role-to-assume: arn:aws:iam::829744483406:role/GithubOIDCRole
+            role-session-name: GitHub_to_AWS_via_FederatedOIDC
+            aws-region: ${{ secrets.region }}
         
+      - name: Sts GetCallerIdentity
+        run: |
+         aws sts get-caller-identity
 
       - name: Terraform Plan
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform plan -input=false -out=tf.out
+          terraform plan -input=false -out=plan.out
           
        
