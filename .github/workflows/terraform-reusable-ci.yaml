@@ -34,6 +34,9 @@ jobs:
     
     - name: Terraform Format
       run: terraform fmt --list=true -recursive -check
+
+    - name: Terraform Version
+      run: terraform version
     
     - name: Terraform Validate Stage
       working-directory: ./stage  
