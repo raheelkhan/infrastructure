@@ -21,4 +21,5 @@ output "cluster_name" {
 output "cluster_token" {
   description = "Kubernetes Cluster Name"
   value       = module.cluster.cluster_token
+  sensitive   = true
 }
