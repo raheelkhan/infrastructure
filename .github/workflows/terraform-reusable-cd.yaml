@@ -60,25 +60,30 @@ jobs:
           terraform plan -no-color -out=tfplan >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
       
-      - name: Upload Terraform Plan Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Terrafom Plan Out
-          path: ${{ inputs.environment }}/tfplan
-      
-      - name: Manual Approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: raheelkhan
-          minimum-approvals: 1
-          issue-title: "Deploying ${{ github.ref }} to ${{ inputs.environment }}"
-          issue-body: "Please approve or deny the deployment of version ${{ github.ref }}"
-          exclude-workflow-initiator-as-approver: false
-      
       - name: Terraform Apply
         working-directory: ${{ inputs.environment }}
         run: |
           cat tfplan
+      
+      # - name: Upload Terraform Plan Artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: Terrafom Plan Out
+      #     path: ${{ inputs.environment }}/tfplan
+      
+      # - name: Manual Approval
+      #   uses: trstringer/manual-approval@v1
+      #   with:
+      #     secret: ${{ github.TOKEN }}
+      #     approvers: raheelkhan
+      #     minimum-approvals: 1
+      #     issue-title: "Deploying ${{ github.ref }} to ${{ inputs.environment }}"
+      #     issue-body: "Please approve or deny the deployment of version ${{ github.ref }}"
+      #     exclude-workflow-initiator-as-approver: false
+      
+      # - name: Terraform Apply
+      #   working-directory: ${{ inputs.environment }}
+      #   run: |
+      #     cat tfplan
           
        
