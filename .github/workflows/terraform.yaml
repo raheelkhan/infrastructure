@@ -3,6 +3,7 @@ name: 'Terraform CD'
 permissions:
   id-token: write
   contents: read
+  issues: write
 
 on:
   push:
