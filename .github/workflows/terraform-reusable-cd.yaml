@@ -59,7 +59,7 @@ jobs:
         id: upload-terraform-plan-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Terrafom Plan Out
+          name: "Terrafom Plan Out - ${{ inputs.environment }}"
           path: ${{ inputs.environment }}/plan.out
       
       - name: Manual Approval
