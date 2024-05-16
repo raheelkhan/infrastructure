@@ -63,14 +63,6 @@ data "aws_eks_cluster_auth" "cluster" {
   name = var.cluster_name
 }
 
-
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-    token                  = data.aws_eks_cluster_auth.cluster.token
-  }
-}
 module "irsa_aws_alb_controller" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
@@ -85,57 +77,42 @@ module "irsa_aws_alb_controller" {
   }
 }
 
-# resource "kubernetes_service_account" "load_balancer_service_account" {
-#   metadata {
-#     name      = "aws-load-balancer-controller"
-#     namespace = "kube-system"
-#     labels = {
-#       "app.kubernetes.io/name"      = "aws-load-balancer-controller"
-#       "app.kubernetes.io/component" = "controller"
-#     }
-#     annotations = {
-#       "eks.amazonaws.com/role-arn"               = module.irsa_aws_alb_controller.iam_role_arn
-#       "eks.amazonaws.com/sts-regional-endpoints" = "true"
-#     }
-#   }
-# }
+resource "helm_release" "aws_load_balancer" {
+  depends_on       = [module.eks]
+  name             = "aws-load-balancer"
+  repository       = "https://aws.github.io/eks-charts"
+  chart            = "aws-load-balancer-controller"
+  version          = "1.5.3"
+  namespace        = "kube-system"
+  create_namespace = false
+  max_history      = 10
 
-# resource "helm_release" "aws_load_balancer" {
-#   depends_on       = [module.eks]
-#   name             = "aws-load-balancer"
-#   repository       = "https://aws.github.io/eks-charts"
-#   chart            = "aws-load-balancer-controller"
-#   version          = "1.5.3"
-#   namespace        = "kube-system"
-#   create_namespace = false
-#   max_history      = 10
+  set {
+    name  = "clusterName"
+    value = var.cluster_name
+  }
+  set {
+    name  = "serviceAccount.create"
+    value = "true"
+  }
+  set {
+    name  = "serviceAccount.name"
+    value = "aws-load-balancer-controller"
+  }
 
-#   set {
-#     name  = "clusterName"
-#     value = var.cluster_name
-#   }
-#   set {
-#     name  = "serviceAccount.create"
-#     value = "true"
-#   }
-#   set {
-#     name  = "serviceAccount.name"
-#     value = "aws-load-balancer-controller"
-#   }
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = module.irsa_aws_alb_controller.iam_role_arn
+  }
 
-#   set {
-#     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-#     value = module.irsa_aws_alb_controller.iam_role_arn
-#   }
+  set {
+    name  = "region"
+    value = var.region
+  }
 
-#   set {
-#     name  = "region"
-#     value = var.region
-#   }
-
-#   set {
-#     name  = "vpcId"
-#     value = var.vpc_id
-#   }
-# }
+  set {
+    name  = "vpcId"
+    value = var.vpc_id
+  }
+}
 

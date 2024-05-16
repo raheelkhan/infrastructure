@@ -21,6 +21,7 @@ output "cluster_certificate_authority_data" {
 output "cluster_token" {
   description = "CA Data for EKS Cluster"
   value       = data.aws_eks_cluster_auth.cluster.token
+  sensitive   = true
 }
 
 output "image_repository_url" {
