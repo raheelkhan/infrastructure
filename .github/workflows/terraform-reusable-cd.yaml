@@ -81,13 +81,3 @@ jobs:
         working-directory: ${{ inputs.environment }}
         run: |
           terraform output
-      
-      - name: Terraform Destroy
-        working-directory: ${{ inputs.environment }}
-        run: |
-          terraform destroy -var="github_oidc_role_arn=${{ secrets.aws_iam_role_arn }}" \
-          -auto-approve -input=false
-      
-      
-          
-       

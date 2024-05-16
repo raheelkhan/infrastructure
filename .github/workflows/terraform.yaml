@@ -11,8 +11,8 @@ on:
       - master
 
 jobs:
-  # Run-CI:
-  #   uses: ./.github/workflows/terraform-reusable-ci.yaml
+  Run-CI:
+    uses: ./.github/workflows/terraform-reusable-ci.yaml
     
   Run-CD-Stage:
     # needs: Run-CI
@@ -25,14 +25,14 @@ jobs:
       region: ${{ secrets.STAGE_REGION }}
       aws_iam_role_arn: ${{ secrets.STAGE_AWS_IAM_ROLE_ARN }}
 
-  # Run-CD-Prod:
-  #   needs: Run-CI
-  #   uses: ./.github/workflows/terraform-reusable-cd.yaml
-  #   with:
-  #     environment: prod
-  #   secrets:
-  #     bucket: ${{ secrets.PROD_BUCKET }}
-  #     key: ${{ secrets.PROD_KEY }}
-  #     region: ${{ secrets.PROD_REGIONs }}
-  #     aws_iam_role_arn: ${{ secrets.PROD_AWS_IAM_ROLE_ARN }}
+  Run-CD-Prod:
+    needs: Run-CI
+    uses: ./.github/workflows/terraform-reusable-cd.yaml
+    with:
+      environment: prod
+    secrets:
+      bucket: ${{ secrets.PROD_BUCKET }}
+      key: ${{ secrets.PROD_KEY }}
+      region: ${{ secrets.PROD_REGIONs }}
+      aws_iam_role_arn: ${{ secrets.PROD_AWS_IAM_ROLE_ARN }}
     
