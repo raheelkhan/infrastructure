@@ -85,7 +85,7 @@ jobs:
       - name: Terraform Destroy
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform destroy -auto-approve
+          terraform destroy -auto-approve -input=false tfplan
       
       
           
