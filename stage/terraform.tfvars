@@ -17,3 +17,5 @@ desired_number_of_nodes = 2
 ebs_csi_role_name = "EBSCSIRole"
 
 aws_alb_controller_role_name = "AWSLoadBalancerControllerRole"
+
+image_repository_name = -"ImageRepository"

@@ -22,3 +22,8 @@ output "cluster_token" {
   description = "CA Data for EKS Cluster"
   value       = data.aws_eks_cluster_auth.cluster.token
 }
+
+output "image_repository_url" {
+  description = "URL of ECR image repository"
+  value       = aws_ecr_repository.image_repository.repository_url
+}

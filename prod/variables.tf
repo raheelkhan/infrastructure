@@ -54,3 +54,8 @@ variable "aws_alb_controller_role_name" {
   description = "The name of role that will be created as IAM role for service account for AWS Load Balancer Controller"
   type        = string
 }
+
+variable "image_repository_name" {
+  description = "Name of ECR image repository"
+  type        = string
+}

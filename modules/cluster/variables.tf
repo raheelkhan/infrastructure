@@ -64,3 +64,8 @@ variable "desired_number_of_nodes" {
   description = "The desired number of nodes that the Auto Scaling Group must maintain"
   type        = number
 }
+
+variable "image_repository_name" {
+  description = "Name of ECR image repository"
+  type        = string
+}

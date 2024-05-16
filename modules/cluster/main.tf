@@ -119,4 +119,12 @@ resource "helm_release" "aws_load_balancer" {
   }
 }
 
+resource "aws_ecr_repository" "image_repository" {
+  name                 = var.image_repository_name
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
 
