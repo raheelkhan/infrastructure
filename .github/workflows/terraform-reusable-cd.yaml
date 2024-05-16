@@ -75,6 +75,11 @@ jobs:
         working-directory: ${{ inputs.environment }}
         run: |
           terraform apply -auto-approve -input=false tfplan
+
+      - name: Terraform Apply
+        working-directory: ${{ inputs.environment }}
+        run: |
+          terraform output
       
       
           
