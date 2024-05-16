@@ -6,6 +6,17 @@ data "aws_eks_cluster_auth" "cluster" {
   name = var.cluster_name
 }
 
+module "irsa_ebs_csi" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version = "5.39.0"
+
+  create_role                   = true
+  role_name                     = var.ebs_csi_role_name
+  provider_url                  = module.eks.oidc_provider
+  role_policy_arns              = [data.aws_iam_policy.ebs_csi_policy.arn]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.5"
@@ -40,17 +51,18 @@ module "eks" {
   }
 }
 
-module "irsa_ebs_csi" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "5.39.0"
+resource "aws_ecr_repository" "image_repository" {
+  name                 = var.image_repository_name
+  image_tag_mutability = "MUTABLE"
 
-  create_role                   = true
-  role_name                     = var.ebs_csi_role_name
-  provider_url                  = module.eks.oidc_provider
-  role_policy_arns              = [data.aws_iam_policy.ebs_csi_policy.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
 
+################################################################################
+# Resources related to Kubernetes Provider for AWS LB Controller               #
+################################################################################
 module "irsa_aws_alb_controller" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
@@ -116,15 +128,6 @@ resource "helm_release" "aws_load_balancer" {
   set {
     name  = "vpcId"
     value = var.vpc_id
-  }
-}
-
-resource "aws_ecr_repository" "image_repository" {
-  name                 = var.image_repository_name
-  image_tag_mutability = "MUTABLE"
-
-  image_scanning_configuration {
-    scan_on_push = true
   }
 }
 
