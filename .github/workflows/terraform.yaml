@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/terraform-reusable-ci.yaml
     
   Run-CD-Stage:
-    # needs: Run-CI
+    needs: Run-CI
     uses: ./.github/workflows/terraform-reusable-cd.yaml
     with:
       environment: stage
@@ -26,7 +26,7 @@ jobs:
       aws_iam_role_arn: ${{ secrets.STAGE_AWS_IAM_ROLE_ARN }}
 
   Run-CD-Prod:
-    needs: Run-CI
+    needs: Run-CD-Stage
     uses: ./.github/workflows/terraform-reusable-cd.yaml
     with:
       environment: prod
