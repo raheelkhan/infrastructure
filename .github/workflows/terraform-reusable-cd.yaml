@@ -53,16 +53,11 @@ jobs:
           terraform plan -no-color -input=false -out=tfplan
           terraform show tfplan > plan.out.txt
       
-      - name: Terraform Apply
-        working-directory: ${{ inputs.environment }}
-        run: |
-          cat plan.out.txt
-      
-      # - name: Upload Terraform Plan Artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: Terrafom Plan Out
-      #     path: ${{ inputs.environment }}/tfplan
+      - name: Upload Terraform Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Terrafom Plan Out
+          path: ${{ inputs.environment }}/plan.out.txt
       
       # - name: Manual Approval
       #   uses: trstringer/manual-approval@v1
