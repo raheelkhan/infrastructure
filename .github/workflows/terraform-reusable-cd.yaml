@@ -54,22 +54,22 @@ jobs:
           terraform plan -no-color -input=false -out=tfplan
           terraform show tfplan > plan.out
       
-      - name: Upload Terraform Plan Artifact
-        id: upload-terraform-plan-artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Terrafom Plan Out
-          path: ${{ inputs.environment }}/plan.out
+      # - name: Upload Terraform Plan Artifact
+      #   id: upload-terraform-plan-artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: Terrafom Plan Out
+      #     path: ${{ inputs.environment }}/plan.out
       
-      - name: Manual Approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: raheelkhan
-          minimum-approvals: 1
-          issue-title: "Deploying ${{ github.ref }} to ${{ inputs.environment }}"
-          issue-body: "Please approve or deny the deployment of version ${{ github.ref }}, You can review the Terraform plan at [here](${{ steps.upload-terraform-plan-artifact.outputs.artifact-url }})"
-          exclude-workflow-initiator-as-approver: false
+      # - name: Manual Approval
+      #   uses: trstringer/manual-approval@v1
+      #   with:
+      #     secret: ${{ github.TOKEN }}
+      #     approvers: raheelkhan
+      #     minimum-approvals: 1
+      #     issue-title: "Deploying ${{ github.ref }} to ${{ inputs.environment }}"
+      #     issue-body: "Please approve or deny the deployment of version ${{ github.ref }}, You can review the Terraform plan at [here](${{ steps.upload-terraform-plan-artifact.outputs.artifact-url }})"
+      #     exclude-workflow-initiator-as-approver: false
       
       - name: Terraform Apply
         working-directory: ${{ inputs.environment }}
