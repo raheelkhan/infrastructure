@@ -2,6 +2,10 @@ data "aws_iam_policy" "ebs_csi_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
+locals {
+  eks_cluster_admin_access_policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+}
+
 module "irsa_ebs_csi" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "5.39.0"
@@ -43,6 +47,21 @@ module "eks" {
       min_size       = var.min_number_of_nodes
       max_size       = var.max_number_of_nodes
       desired_size   = var.desired_number_of_nodes
+    }
+  }
+  access_entries = {
+    github = {
+      kubernetes_groups = []
+      principal_arn     = var.github_oidc_role_arn
+
+      policy_associations = {
+        allow_cluster_access = {
+          policy_arn = local.eks_cluster_admin_access_policy_arn
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
     }
   }
 }

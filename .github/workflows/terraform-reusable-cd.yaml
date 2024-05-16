@@ -74,9 +74,10 @@ jobs:
       - name: Terraform Apply
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform apply -auto-approve -input=false tfplan
+          terraform apply -var github_oidc_role_arn=${{ secrets.aws_iam_role_arn }} \
+          -auto-approve -input=false tfplan
 
-      - name: Terraform Apply
+      - name: Terraform Output
         working-directory: ${{ inputs.environment }}
         run: |
           terraform output

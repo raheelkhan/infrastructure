@@ -59,3 +59,10 @@ variable "image_repository_name" {
   description = "Name of ECR image repository"
   type        = string
 }
+
+variable "github_oidc_role_arn" {
+  description = "The ARN of role that Github Actions will assume to run terraform configruation"
+  type        = string
+  sensitive   = true
+}
+
