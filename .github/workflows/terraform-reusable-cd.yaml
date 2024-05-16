@@ -50,13 +50,13 @@ jobs:
       - name: Terraform Plan
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform plan -input=false -out=plan.out
+          terraform plan -no-color -input=false -out=tfplan
       
       - name: Upload Terraform Plan Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Terrafom Plan Out
-          path: ${{ inputs.environment }}/plan.out
+          path: ${{ inputs.environment }}/tfplan
       
       - name: Manual Approval
         uses: trstringer/manual-approval@v1
@@ -71,6 +71,6 @@ jobs:
       - name: Terraform Apply
         working-directory: ${{ inputs.environment }}
         run: |
-          cat plan.out
+          cat tfplan
           
        
