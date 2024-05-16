@@ -51,7 +51,7 @@ jobs:
         id: terraform-plan
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform plan -var github_oidc_role_arn=${{ secrets.aws_iam_role_arn }} \
+          terraform plan -var="github_oidc_role_arn=${{ secrets.aws_iam_role_arn }}" \
           -no-color -input=false -out=tfplan \
           terraform show tfplan > plan.out
       
@@ -75,7 +75,7 @@ jobs:
       - name: Terraform Apply
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform apply -var github_oidc_role_arn=${{ secrets.aws_iam_role_arn }} \
+          terraform apply -var="github_oidc_role_arn=${{ secrets.aws_iam_role_arn }}" \
           -auto-approve -input=false tfplan
 
       - name: Terraform Output
