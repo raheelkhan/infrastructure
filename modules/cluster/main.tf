@@ -2,10 +2,6 @@ data "aws_iam_policy" "ebs_csi_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
-data "aws_eks_cluster_auth" "cluster" {
-  name = var.cluster_name
-}
-
 module "irsa_ebs_csi" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "5.39.0"
@@ -63,6 +59,18 @@ resource "aws_ecr_repository" "image_repository" {
 ################################################################################
 # Resources related to Kubernetes Provider for AWS LB Controller               #
 ################################################################################
+data "aws_eks_cluster_auth" "cluster" {
+  name = var.cluster_name
+}
+
+
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    token                  = data.aws_eks_cluster_auth.cluster.token
+  }
+}
 module "irsa_aws_alb_controller" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
