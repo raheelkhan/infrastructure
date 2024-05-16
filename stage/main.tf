@@ -19,4 +19,5 @@ module "cluster" {
   ebs_csi_role_name            = var.ebs_csi_role_name
   aws_alb_controller_role_name = var.aws_alb_controller_role_name
   image_repository_name        = var.image_repository_name
+  github_oidc_role_arn         = var.github_oidc_role_arn
 }
