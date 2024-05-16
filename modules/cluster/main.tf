@@ -85,20 +85,20 @@ module "irsa_aws_alb_controller" {
   }
 }
 
-resource "kubernetes_service_account" "load_balancer_service_account" {
-  metadata {
-    name      = "aws-load-balancer-controller"
-    namespace = "kube-system"
-    labels = {
-      "app.kubernetes.io/name"      = "aws-load-balancer-controller"
-      "app.kubernetes.io/component" = "controller"
-    }
-    annotations = {
-      "eks.amazonaws.com/role-arn"               = module.irsa_aws_alb_controller.iam_role_arn
-      "eks.amazonaws.com/sts-regional-endpoints" = "true"
-    }
-  }
-}
+# resource "kubernetes_service_account" "load_balancer_service_account" {
+#   metadata {
+#     name      = "aws-load-balancer-controller"
+#     namespace = "kube-system"
+#     labels = {
+#       "app.kubernetes.io/name"      = "aws-load-balancer-controller"
+#       "app.kubernetes.io/component" = "controller"
+#     }
+#     annotations = {
+#       "eks.amazonaws.com/role-arn"               = module.irsa_aws_alb_controller.iam_role_arn
+#       "eks.amazonaws.com/sts-regional-endpoints" = "true"
+#     }
+#   }
+# }
 
 # resource "helm_release" "aws_load_balancer" {
 #   depends_on       = [module.eks]
