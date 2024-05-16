@@ -18,4 +18,4 @@ ebs_csi_role_name = "EBSCSIRole"
 
 aws_alb_controller_role_name = "AWSLoadBalancerControllerRole"
 
-image_repository_name = -"ImageRepository
+image_repository_name = "ImageRepository"
