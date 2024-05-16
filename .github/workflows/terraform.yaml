@@ -33,6 +33,6 @@ jobs:
     secrets:
       bucket: ${{ secrets.PROD_BUCKET }}
       key: ${{ secrets.PROD_KEY }}
-      region: ${{ secrets.PROD_REGIONs }}
+      region: ${{ secrets.PROD_REGION }}
       aws_iam_role_arn: ${{ secrets.PROD_AWS_IAM_ROLE_ARN }}
     
