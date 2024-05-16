@@ -85,7 +85,7 @@ jobs:
       - name: Terraform Destroy
         working-directory: ${{ inputs.environment }}
         run: |
-          terraform destroy -auto-approve -input=false tfplan
+          terraform destroy -var="github_oidc_role_arn=${{ secrets.aws_iam_role_arn }}" -auto-approve --force -input=false
       
       
           
